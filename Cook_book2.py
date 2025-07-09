@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from Cook_book_hw.ex import cook_book
 
 
@@ -33,47 +35,42 @@ class CookBook:
         if flag < len(all_lines) and all_lines[flag].strip() == '':
             flag += 1
 
-    print(cook_book)
+    # print(cook_book)
 
 
 def get_shop_list_by_dishes(dishes, person_count):
     shop_list = {}
+
     for dish in dishes:
 
         if dish in cook_book:
-            ingredients = cook_book[dish]
+            ingredients = [cook_book[dish]]
+            flag = 0
 
-            # print(ingredients)
-        for ingr in ingredients:
-            i = 0
-            ingr_name = ingredients[i]['ingredient_name']
-            # print(ingredients[0])
-            # print(ingr_name)
-            ingr_count = int(ingredients[i]['quantity'])
+            for ingr in ingredients:
+                for i in ingr:
 
-            ingr_measure = ingredients[i]['measure']
+                    ingr_name = ingr[flag].get('ingredient_name')
+                    ingr_count = int(ingr[flag].get('quantity'))
+                    ingr_measure = ingr[flag].get('measure')
 
+                    flag += 1
+                    count = ingr_count * person_count
 
-            count = ingr_count * person_count
-            i += 1
-            if ingr_name in shop_list:
-                ingr_count += count
-            else:
-                shop_list = {
-                    'ingr_name': {
-                    'measure': ingr_measure,
-                    'quantity': ingr_count
-                }}
+                    if ingr_name in shop_list:
+                        ingr_count += count
+
+                    else:
+                        shop_list.setdefault(ingr_name, {'measure' : ingr_measure, 'quantity' : count})
 
         else:
             print("Такого блюда нет")
-
     return shop_list
 
-dishes = ['Омлет', 'Фахитос']
-persons = 3
+dishes = ['Омлет', 'Запеченный картофель']
+persons = 2
 shopping_list = get_shop_list_by_dishes(dishes, persons)
-
+pprint(shopping_list)
 
 
 
