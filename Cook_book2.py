@@ -10,9 +10,17 @@ class CookBook:
         all_lines = f.readlines()
 
     flag = 0
+    dish_count = 0
     while flag < len(all_lines):
+
         name = all_lines[flag].strip()
-        if name == 'Фахитос':
+
+        # if name == 'Фахитос':
+        #     break
+        if name == '':
+            dish_count += 1
+
+        if dish_count == 3:
             break
         flag += 1
 
